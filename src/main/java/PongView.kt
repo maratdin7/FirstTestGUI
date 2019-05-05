@@ -122,7 +122,7 @@ class PongView : View() {
                 }
             }
             else {
-                canvas.graphicsContext2D.clearRect(0.0,0.0, canvasWidth.toDouble(),canvasHeight.toDouble())
+                canvas.graphicsContext2D.clearRect(0.0,0.0, canvas.width, canvas.height)
                 canvas.paintBall(ball)
                 canvas.paintDesk(deskPlayer1)
                 canvas.paintDesk(deskPlayer2)
