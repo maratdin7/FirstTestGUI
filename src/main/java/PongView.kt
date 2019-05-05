@@ -92,7 +92,6 @@ class PongView : View() {
                 }
 
                 setOnKeyPressed {
-                    println(4)
                     keys[it.code] = true
                     keyTest()
                     keyPress = true
@@ -106,6 +105,7 @@ class PongView : View() {
         }
 
         subscribe<MoveEvent> {
+            keyPress = false // чтобы шарик не мешал
             if (keyPress) {
                 val lim = Point(canvasWidth, canvasHeight)
 
