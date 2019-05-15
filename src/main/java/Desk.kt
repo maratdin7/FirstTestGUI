@@ -1,4 +1,5 @@
-class Desk(val x: Double, var y: Double, val length: Int, val weight: Int) {
+class Desk(val x: Double, var y: Double, val length: Double, val weight: Double) {
+
     fun step(limitY: Double, radious: Double, ddy: Int) {
         y += ddy
         val limitMin = 2 * (radious + 1)
