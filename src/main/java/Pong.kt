@@ -5,7 +5,7 @@ import tornadofx.App
 class Pong : App(PongView::class) {
     override fun start(stage: Stage) {
         super.start(stage)
-        with (stage) {
+        with(stage) {
             sizeToScene()
             minHeight = height
             maxHeight = height

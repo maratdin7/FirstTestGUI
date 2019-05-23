@@ -1,23 +1,18 @@
 import kotlin.math.abs
 import kotlin.math.sign
 
-enum class Player {
-    One,
-    Two
-}
-
 class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var nowDesk: Player, val radius: Double) {
 
-    fun step(width: Double, heigh: Double, deskPlayer1: Desk, deskPlayer2: Desk): Int {
+    fun step(width: Double, height: Double, deskPlayer1: Desk, deskPlayer2: Desk): Player {
         x += dx
         y += dy
 
-        if (x - radius <= deskPlayer1.weight + deskPlayer1.x && nowDesk == Player.One) {
+        if (x - radius <= deskPlayer1.width + deskPlayer1.x && nowDesk == Player.One) {
             val tg = dy / dx
             val b = y - tg * x
-            var tempX = deskPlayer1.x + deskPlayer1.weight + radius
+            var tempX = deskPlayer1.x + deskPlayer1.width + radius
             var tempY = tempX * tg + b
-            val lasty = y
+            val lastY = y
             x = tempX + 0.5
             y = tempY
             if (tempY in deskPlayer1.y - radius + 1..deskPlayer1.y + deskPlayer1.length + radius) {
@@ -26,10 +21,10 @@ class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var now
                 nowDesk = Player.Two
             } else {
 
-                if (lasty < deskPlayer1.y + radius) {
+                if (lastY < deskPlayer1.y + radius) {
                     tempY = deskPlayer1.y - radius
                     tempX = (tempY - b) / tg
-                    if (tempX - radius in deskPlayer1.x..deskPlayer1.x + deskPlayer1.weight + radius) {
+                    if (tempX - radius in deskPlayer1.x..deskPlayer1.x + deskPlayer1.width + radius) {
                         x = tempX
                         y = tempY
                         dx = -dx
@@ -43,7 +38,7 @@ class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var now
                 } else {
                     tempY = deskPlayer1.y + deskPlayer1.length + radius
                     tempX = (tempY - b) / tg
-                    if (tempX - radius in deskPlayer1.x..deskPlayer1.x + deskPlayer1.weight + radius) {
+                    if (tempX - radius in deskPlayer1.x..deskPlayer1.x + deskPlayer1.width + radius) {
                         x = tempX
                         y = tempY
                         dx = -dx
@@ -64,23 +59,23 @@ class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var now
             val b = y - tg * x
             var tempX = deskPlayer2.x - radius
             var tempY = tempX * tg + b
-            val lasty = y
+            val lastY = y
             x = tempX - 0.5
             y = tempY
             if (tempY in deskPlayer2.y - radius + 1..deskPlayer2.y + deskPlayer2.length + radius) {
                 inDesk(deskPlayer2)
                 nowDesk = Player.One
             } else {
-                if (lasty < deskPlayer2.y + radius) {
+                if (lastY < deskPlayer2.y + radius) {
                     tempY = deskPlayer2.y - radius
                     tempX = (tempY - b) / tg
-                    if (tempX + radius in deskPlayer2.x - radius..deskPlayer2.x + deskPlayer2.weight) {
+                    if (tempX + radius in deskPlayer2.x - radius..deskPlayer2.x + deskPlayer2.width) {
                         x = tempX
                         y = tempY
                         dx = -dx
                         if (dy > 0) dy = -dy
                     }
-                    if (tempX + radius in deskPlayer2.x + deskPlayer2.weight..deskPlayer2.x + deskPlayer2.weight + 2 * radius) {
+                    if (tempX + radius in deskPlayer2.x + deskPlayer2.width..deskPlayer2.x + deskPlayer2.width + 2 * radius) {
                         x = tempX
                         y = tempY
                         if (dy > 0) dy = -dy
@@ -88,13 +83,13 @@ class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var now
                 } else {
                     tempY = deskPlayer2.y + deskPlayer2.length + radius
                     tempX = (tempY - b) / tg
-                    if (tempX + radius in deskPlayer2.x - radius..deskPlayer2.x + deskPlayer2.weight) {
+                    if (tempX + radius in deskPlayer2.x - radius..deskPlayer2.x + deskPlayer2.width) {
                         x = tempX
                         y = tempY
                         dx = -dx
                         if (dy < 0) dy = -dy
                     }
-                    if (tempX + radius in deskPlayer2.x + deskPlayer2.weight..deskPlayer2.x + deskPlayer2.weight + 2 * radius) {
+                    if (tempX + radius in deskPlayer2.x + deskPlayer2.width..deskPlayer2.x + deskPlayer2.width + 2 * radius) {
                         x = tempX
                         y = tempY
                         if (dy < 0) dy = -dy
@@ -104,8 +99,8 @@ class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var now
             }
         }
 
-        if (y >= heigh - radius) {
-            y = heigh - radius
+        if (y >= height - radius) {
+            y = height - radius
             dy = -dy
         }
         if (y < radius) {
@@ -114,9 +109,9 @@ class Ball(var x: Double, var y: Double, var dx: Double, var dy: Double, var now
         }
 
         return when {
-            x < radius -> 1
-            x >= width - radius -> -1
-            else -> 0
+            x < radius -> Player.Two
+            x >= width - radius -> Player.One
+            else -> Player.Nobody
         }
     }
 

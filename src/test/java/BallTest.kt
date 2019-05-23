@@ -21,10 +21,10 @@ class BallTest {
     fun inDesk() {
         val desk = Desk(70.0, 100.0, 100.0,10.0)
          for (i in 0 .. 120) {
-             val ball = Ball(80.0,90.0+i,-1.0, 0.0,Player.One,10.0)
-             val y = ball.y
-             print("$y --- ")
+             val ball = Ball(80.0,90.0+i,-1.0, 0.5,Player.One,10.0)
+
              ball.inDesk(desk)
+             println("${ball.dy}")
          }
     }
 }
